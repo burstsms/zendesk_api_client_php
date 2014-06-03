@@ -45,6 +45,10 @@ class Http {
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $json);
+            //OS: json is always a json string here, next isset ALWAYS works, thanks a lot php
+            if(!is_array($json))
+            	$json=(array)json_decode($json);
+            	
             if(isset($json['filename'])) {
 							$file = fopen($json['filename'], 'r');
 							$size = filesize($json['filename']);
@@ -84,10 +88,12 @@ class Http {
         }
         $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $responseBody = substr($response, $headerSize);
+        //OS: send response body to debug too
         $client->setDebug(
             curl_getinfo($curl, CURLINFO_HEADER_OUT),
             curl_getinfo($curl, CURLINFO_HTTP_CODE),
-            substr($response, 0, $headerSize)
+            substr($response, 0, $headerSize),
+            $responseBody
         );
         curl_close($curl);
 

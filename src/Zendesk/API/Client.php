@@ -148,10 +148,20 @@ class Client {
     /*
      * Set debug information as an object
      */
-    public function setDebug($lastRequestHeaders, $lastResponseCode, $lastResponseHeaders) {
+    //OS: response body
+    public function setDebug($lastRequestHeaders, $lastResponseCode, $lastResponseHeaders, $responseBody='') {
         $this->debug->lastRequestHeaders = $lastRequestHeaders;
         $this->debug->lastResponseCode = $lastResponseCode;
         $this->debug->lastResponseHeaders = $lastResponseHeaders;
+        if($responseBody)
+        {
+        	$response=json_decode($responseBody);
+        	if(is_object($response))
+        		$this->debug->response=$response;
+        	else
+        		$this->debug->responseRaw=$responseBody;	
+        		
+        }
     }
 
     /*

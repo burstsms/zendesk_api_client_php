@@ -10,5 +10,7 @@ class Debug {
     public $lastRequestHeaders;
     public $lastResponseCode;
     public $lastResponseHeaders;
-
+    //OS: added response body
+	public $response='';
+	public $responseRaw='';
 }
